@@ -3,7 +3,6 @@ import { useEffect } from 'react';
 import { Grid, Message, Button, Card, Segment, Sticky, Header, Image, Dropdown } from 'semantic-ui-react';
 
 import brand from './resources/logo.png'
-// import Training from './resources/training.jpg'
 
 import VideoModal from './VideoModal';
 import VideoCard from './VideoCard';
@@ -17,8 +16,6 @@ const SPREADSHEET_ID = '1WbVW54tMrwobxHddSNRCad15faVGeeqaKeSvu5kgS_A';
 const VideoPlayer = () => {
     const [currentPlaylist, setCurrentPlaylist] = useState('');
     const [playlists, setPlaylists] = useState([]);
-    // const [sinhalaPlaylists, setSinhalaPlaylists] = useState([]);
-    // const [englishPlaylists, setEnglishPlaylists] = useState([]);
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -49,31 +46,26 @@ const VideoPlayer = () => {
             try {
                 const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/A:c?key=${API_KEY_GOOGLE_SHEET}`);
                 const data = await response.json();
-                console.log("data", data)
                 const sinhalaPlaylists = []
                 const englishPlaylists = []
                 data.values.map((value) => {
 
                     if (value[0] === "Sinhala") {
-                       return sinhalaPlaylists.push(value)
-                    }else{
-                       return englishPlaylists.push(value)
+                        return sinhalaPlaylists.push(value)
+                    } else {
+                        return englishPlaylists.push(value)
                     }
                 })
-                console.log("sinhala playlist",sinhalaPlaylists)
-                console.log("english playlist",englishPlaylists)
-                if(language==="sinhala"){
-                setPlaylists(sinhalaPlaylists || []);
-                setCurrentPlaylist(sinhalaPlaylists[0][2])
+                if (language === "sinhala") {
+                    setPlaylists(sinhalaPlaylists || []);
+                    setCurrentPlaylist(sinhalaPlaylists[0][2])
 
-                }else{
-                setPlaylists(englishPlaylists || []);
-                setCurrentPlaylist(englishPlaylists[0][2])
+                } else {
+                    setPlaylists(englishPlaylists || []);
+                    setCurrentPlaylist(englishPlaylists[0][2])
 
 
                 }
-                // setPlaylists(data.values || []);
-                // setCurrentPlaylist(data?.values?.[0][2])
             } catch (err) {
                 setError(err);
             } finally {
@@ -124,26 +116,12 @@ const VideoPlayer = () => {
     };
 
 
-
-
-    console.log(currentPlaylist)
-    console.log(playlists)
-    console.log(videos)
-    console.log(language)
-
     return (
         <Segment loading={loading} basic>
             <Grid >
 
                 <Grid.Column width={2} >
                     <Sticky>
-                        {/* <Header as='h2' icon textAlign='center'>
-                            <Icon name='edit outline' circular />
-                        </Header> */}
-                        {/* <Segment textAlign='center' basic>
-                        <Image src={Training} size='small' circular  verticalAlign='top'/>
-                        </Segment> */}
-
                         <Image src={brand} size="massive" />
                         <Header as='h2' icon textAlign='center'>
                             <Header.Content>Sri Lanka Trainings</Header.Content>
@@ -179,12 +157,9 @@ const VideoPlayer = () => {
 
                     </Sticky>
                     <Segment basic textAlign="center">
-
                         <p style={{ color: 'grey', marginTop: '5px' }}>©2023 - Hik-Partner Link.<br />Hikvision South Asia.</p>
                     </Segment>
                 </Grid.Column>
-
-
                 <Grid.Column width={14} >
                     {
                         error &&
